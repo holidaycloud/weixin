@@ -861,7 +861,6 @@ Weixin.groupSendArticle = function(id,articleID,groupID,fn){
 
 //发送模板消息
 Weixin.sendTemplate = function(id,tempId,data,toUser,fn){
-    console.log(id,tempId,data,toUser);
     async.auto({
         'getAccessToken':function(cb){
             if(global.weixin[id]&&global.weixin[id].accessToken&&global.weixin[id].accessToken.startTime+(global.weixin[id].accessToken.expires_in*1000)>Date.now()){
