@@ -4,6 +4,7 @@
 var Weixin = require('./../control/weixinCtrl');
 var MediaCtrl = require('./../control/mediaCtrl');
 var weixinConfigCtrl = require('./../control/weixinConfigCtrl');
+var Config = require('./../config/config.json');
 var async = require('async');
 //验证消息真实性
 exports.check = function(req,res){
@@ -305,6 +306,35 @@ exports.groupSendArticle = function(req,res){
     var articleID = req.body.articleID;
     var groupID = req.body.groupID;
     Weixin.groupSendArticle(id,articleID,groupID,function(err,result){
+        if(err){
+            res.json({'error':1, 'errMsg':err.message});
+        } else {
+            res.json({'error':0, 'data':result});
+        }
+    });
+};
+
+//发送模板消息
+exports.sendOrderTemplate = function(req,res){
+    var id = req.params.id;
+    var tempId = Config.template.order;
+    var toUser = req.body.toUser;
+    var customerInfo = req.body.customerInfo;
+    var orderID = req.body.orderID;
+    var remark = req.body.remark;
+    var orderDate = req.body.orderDate;
+
+    //var data = JSON.parse(req.body.data);
+    var data = {
+        'first':{ 'value':'您有新的订单。','color':'#0A0A0A'},
+        'tradeDateTime':{'value':orderDate,'color':'#0A0A0A'},
+        'orderType':{'value':'新订单','color':'#0A0A0A'},
+        'customerInfo':{'value':customerInfo,'color':'#0A0A0A'},
+        'orderItemName':{'value':'订单号','color':'#0A0A0A'},
+        'orderItemData':{'value':orderID,'color':'#0A0A0A'},
+        'remark':{'value':remark,'color':'#0A0A0A'}
+    };
+    Weixin.sendTemplate(id,tempId,data,toUser,function(err,result){
         if(err){
             res.json({'error':1, 'errMsg':err.message});
         } else {

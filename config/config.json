@@ -3,5 +3,8 @@
         "host":"192.168.22.2",
         "port":27017,
         "database":"weixin"
+    },
+    "template":{
+        "order":"OTQM8Ud7KVbhSrZtSSf3aTotnw5lGzgErTbFSMv0XqY"
     }
 }

@@ -858,4 +858,55 @@ Weixin.groupSendArticle = function(id,articleID,groupID,fn){
         fn(err,results.sendMsg);
     });
 };
+
+//发送模板消息
+Weixin.sendTemplate = function(id,tempId,data,toUser,fn){
+    console.log(id,tempId,data,toUser);
+    async.auto({
+        'getAccessToken':function(cb){
+            if(global.weixin[id]&&global.weixin[id].accessToken&&global.weixin[id].accessToken.startTime+(global.weixin[id].accessToken.expires_in*1000)>Date.now()){
+                cb(null,global.weixin[id].accessToken);
+            } else {
+                Weixin.accessToken(id,function(err,res){
+                    console.log(err,res);
+                    cb(err,res);
+                });
+            }
+        },
+        'sendMsg':['getAccessToken',,function(cb,results){
+            var sendData = {
+                "touser":toUser,
+                "template_id":tempId,
+                "url":"http://weixin.qq.com/download",
+                "topcolor":"#FF0000",
+                "data":data
+            }
+            var https = require('https');
+            var options = {
+                hostname: 'api.weixin.qq.com',
+                port: 443,
+                path: '/cgi-bin/message/template/send?access_token='+results.getAccessToken.access_token,
+                method: 'POST'
+            };
+            var req = https.request(options, function(res) {
+                res.setEncoding('utf8');
+                var _data="";
+                res.on('data', function(chunk) {
+                    _data+=chunk;
+                });
+                res.on('end',function(){
+                    var result = JSON.parse(_data);
+                    cb(null,result);
+                });
+            });
+            req.write(JSON.stringify(sendData));
+            req.end();
+            req.on('error', function(e) {
+                cb(e,null);
+            });
+        }]
+    },function(err,results){
+        fn(err,results.sendMsg);
+    });
+};
 module.exports = Weixin;

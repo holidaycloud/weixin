@@ -28,4 +28,6 @@ router.get('/mediaList/:id',weixinAction.mediaList);
 router.get('/getMedia/:id',weixinAction.getMedia);
 router.post('/uploadArticles/:id',weixinAction.uploadArticles);
 router.post('/groupSendArticle/:id',weixinAction.groupSendArticle);
+router.post('/sendOrderTemplate/:id',weixinAction.sendOrderTemplate);
+
 module.exports = router;
