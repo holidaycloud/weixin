@@ -79,7 +79,7 @@ exports.accesstoken = function(req,res){
 //通过code换取网页授权access_token
 exports.codeAccesstoken = function(req,res){
     var id = req.params.id;
-    var code = request.query.code;
+    var code = req.query.code;
     Weixin.codeAccessToken(id,code,function(err,result){
         if(err){
             res.json({'error':1, 'errMsg':err.message});
