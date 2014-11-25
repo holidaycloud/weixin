@@ -12,6 +12,7 @@ var Weixin = function () {};
 Weixin.checkConfig = function (id,fn) {
     if (!global.weixin.id) {
         weixinConfigCtrl.detail(id,function(err,result){
+            console.log('获取配置文件',err,result);
             if(!err&&result){
                 global.weixin[id] = result;
             } else {
