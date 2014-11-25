@@ -26,13 +26,35 @@ exports.msgNotify = function(req,res){
     var timestamp = req.body.timestamp;
     var nonce = req.body.nonce;
     var msg = req.body.msg;
-    Weixin.check(id, timestamp, nonce,signature,function(err,result){
-        if(result){
-            res.send(msg);
-        } else {
+    async.auto({
+        'check':function(cb){
+            Weixin.check(id, timestamp, nonce,signature,function(err,result){
+                cb(err,result);
+            });
+        },
+        'parseXml':function(cb){
+            var parseString = require('xml2js').parseString;
+            parseString(msg, function (err, result) {
+                cb(err,result);
+            });
+        },
+        'sendMsg':['check','parseXml',function(cb,results){
+            if(results.check){
+                var msgObj = results.parseXml;
+                console.log(msgObj);
+                cb(null,'');
+            } else {
+                cb(new Error('消息不一致'),null);
+            }
+        }]
+    },function(err,results){
+        if(err){
             res.send('');
+        } else {
+            res.send(results.sendMsg);
         }
-    });
+    })
+
 };
 
 //获取AccessToken
