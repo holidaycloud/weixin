@@ -6,6 +6,7 @@ var weixinConfigCtrl = require('./weixinConfigCtrl');
 var mediaCtrl = require('./mediaCtrl');
 var articleCtrl = require('./articleCtrl');
 var locationCtrl = require('./locationCtrl');
+var QRTicket = require('./../model/qrticket');
 var Weixin = function () {};
 //https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
 
@@ -13,7 +14,6 @@ var Weixin = function () {};
 Weixin.checkConfig = function (id,fn) {
     if (!global.weixin.id) {
         weixinConfigCtrl.detail(id,function(err,result){
-            console.log('获取配置文件',err,result);
             if(!err&&result){
                 global.weixin[id] = result;
             } else {
@@ -55,7 +55,6 @@ Weixin.check = function (id, timestamp, nonce,signature,fn) {
 
 //通过code换取网页授权access_token
 Weixin.codeAccessToken = function(id,code,fn){
-    console.log(id,code);
     async.auto({
         'checkConfig':function(cb){
             Weixin.checkConfig(id,function(err,result){
@@ -88,7 +87,6 @@ Weixin.codeAccessToken = function(id,code,fn){
             });
         }]
     },function(err,results){
-        console.log(err,results);
         fn(err,results.getAccessToken);
     });
 };
@@ -278,7 +276,6 @@ Weixin.getCusGroup = function(id,openID,fn){
                 path: '/cgi-bin/groups/getid?access_token='+results.getAccessToken.access_token,
                 method: 'POST'
             };
-            console.log(results.getAccessToken.access_token);
             var req = https.request(options, function(res) {
                 res.setEncoding('utf8');
                 var _data="";
@@ -589,7 +586,7 @@ Weixin.deleteMenu = function(id,fn){
 };
 
 //生成带参数的二维码
-Weixin.createQRCode = function(id,type,expire,sceneId,stream,fn){
+Weixin.createQRCode = function(id,type,expire,sceneId,fn){
     async.auto({
         'getAccessToken':function(cb){
             if(global.weixin[id]&&global.weixin[id].accessToken&&global.weixin[id].accessToken.startTime+(global.weixin[id].accessToken.expires_in*1000)>Date.now()){
@@ -634,25 +631,25 @@ Weixin.createQRCode = function(id,type,expire,sceneId,stream,fn){
                 cb(e,null);
             });
         }],
-        'getQRCode':['createQRCodeTicket',function(cb,results){
-            var path = '/cgi-bin/showqrcode?ticket='+results.createQRCodeTicket.ticket;
-            var https = require('https');
-            var options = {
-                hostname: 'mp.weixin.qq.com',
-                port: 443,
-                path: path,
-                method: 'GET'
-            };
-            var req = https.request(options, function(res) {
-                cb(null,res);
-            });
-            req.end();
-            req.on('error', function(e) {
-                cb(e,null);
-            });
+        'saveQrCode':['createQRCodeTicket',function(cb,results){
+            var ticket = results.createQRCodeTicket;
+            if(ticket.errcode){
+                cb(new Error(ticket.errmsg),null);
+            } else {
+                var qrticket = new QRTicket({
+                    'ent':id,
+                    'ticket':ticket.ticket,
+                    'expireSeconds':ticket.expire_seconds,
+                    'url':ticket.url,
+                    'imageUrl':'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ticket.ticket
+                });
+                qrticket.save(function(err,res){
+                    cb(err,res);
+                });
+            }
         }]
     },function(err,results){
-        fn(err,results.getQRCode);
+        fn(err,results.saveQrCode);
     });
 };
 
@@ -667,6 +664,29 @@ Weixin.event = function(id,obj,fn){
 
 };
 
+Weixin.scan = function(id,obj,fn){
+    var to = obj.ToUserName[0];
+    var from = obj.FromUserName[0];
+    var createTime = obj.CreateTime[0];
+    var fs = require('fs');
+    var ejs = require('ejs');
+    var str = fs.readFileSync('./views/articles.ejs').toString();
+    var appID = global.weixin[id].appID;
+    var renderStr = ejs.render(str,{
+        'from':from,
+        'to':to,
+        'articles':[
+            {
+                'title':'test',
+                'description':'test',
+                'picurl':'http://holidaycloud.b0.upaiyun.com/211c76f5e52d166fb80c53a4cc2c21f4.jpg',
+                'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.meitrip.net/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
+            }
+        ]
+    });
+    fn(null,renderStr);
+};
+
 Weixin.location = function(id,obj,fn){
     var from = obj.FromUserName[0];
     var lat = obj.Latitude[0];
@@ -675,6 +695,10 @@ Weixin.location = function(id,obj,fn){
     locationCtrl.save(id,from,lat,lon,precision,function(err,res){
         fn(err,'');
     });
+};
+
+Weixin.unsubscribe = function(id,obj,fn){
+    fn(null,'');
 };
 
 Weixin.subscribe = function(id,obj,fn){
@@ -697,7 +721,6 @@ Weixin.subscribe = function(id,obj,fn){
             }
         ]
     });
-    console.log('-----返回事件推送结果-----',renderStr);
     fn(null,renderStr);
 };
 
@@ -903,7 +926,6 @@ Weixin.groupSendArticle = function(id,articleID,groupID,fn){
             });
         }]
     },function(err,results){
-        console.log(err,results);
         fn(err,results.sendMsg);
     });
 };
@@ -916,7 +938,6 @@ Weixin.sendTemplate = function(id,tempId,data,toUser,fn){
                 cb(null,global.weixin[id].accessToken);
             } else {
                 Weixin.accessToken(id,function(err,res){
-                    console.log(err,res);
                     cb(err,res);
                 });
             }

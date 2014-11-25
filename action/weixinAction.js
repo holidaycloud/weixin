@@ -227,11 +227,11 @@ exports.createQRCode = function(req,res){
     var type = req.body.type;
     var expire = req.body.expire;
     var sceneId = req.body.sceneId;
-    Weixin.createQRCode(id,type,expire,sceneId,res,function(err,result){
+    Weixin.createQRCode(id,type,expire,sceneId,function(err,result){
         if(err){
             res.json({'error':1, 'errMsg':err.message});
         } else {
-            result.pipe(res);
+            res.json({'error':0, 'data':result});
         }
     });
 };
