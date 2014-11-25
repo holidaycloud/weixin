@@ -659,7 +659,7 @@ Weixin.createQRCode = function(id,type,expire,sceneId,stream,fn){
 //事件推送
 Weixin.event = function(id,obj,fn){
     var eventType = obj.Event[0].toLowerCase();
-    if(typeof(Weixin[eventType]==='function')){
+    if(typeof(Weixin[eventType])==='function'){
         Weixin[eventType](id,obj,fn);
     } else {
         fn(null,'');
