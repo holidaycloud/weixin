@@ -663,6 +663,7 @@ Weixin.event = function(obj,fn){
         var fs = require('fs');
         var ejs = require('ejs');
         var str = fs.readFileSync('./views/articles.ejs');
+        console.log(str);
         var renderStr = ejs.render(str,{
             'from':from,
             'to':to,
