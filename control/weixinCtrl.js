@@ -653,7 +653,7 @@ Weixin.createQRCode = function(id,type,expire,sceneId,stream,fn){
 };
 
 //事件推送
-Weixin.subscribe = function(obj,fn){
+Weixin.event = function(obj,fn){
     var eventType = obj.Event[0];
     console.log('-----接收到事件推送-----',eventType);
     var to = obj.ToUserName[0];
