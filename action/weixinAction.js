@@ -43,7 +43,7 @@ exports.msgNotify = function(req,res){
                 var msgObj = results.parseXml;
                 console.log(msgObj);
                 if(typeof(Weixin[msgObj.xml.MsgType[0]])==='function'){
-                    Weixin[msgObj.xml.MsgType[0]](msgObj.xml,function(err,result){
+                    Weixin[msgObj.xml.MsgType[0]](id,msgObj.xml,function(err,result){
                         cb(err,result);
                     });
                 } else {
