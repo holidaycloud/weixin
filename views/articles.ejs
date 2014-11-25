@@ -1,16 +1,16 @@
 <xml>
-    <ToUserName><![CDATA[<%=from%>]]></ToUserName>
-    <FromUserName><![CDATA[<%=to%>]]></FromUserName>
+    <ToUserName><%=from%></ToUserName>
+    <FromUserName><%=to%>></FromUserName>
     <CreateTime><%=Date.now()%></CreateTime>
-    <MsgType><![CDATA[news]]></MsgType>
+    <MsgType>news></MsgType>
     <ArticleCount><%=articles.length%></ArticleCount>
     <Articles>
         <%articles.forEach(function(article){%>
         <item>
-            <Title><![CDATA[<%=article.title%>]]></Title>
-            <Description><![CDATA[<%=article.description%>]]></Description>
-            <PicUrl><![CDATA[<%=article.picurl%>]]></PicUrl>
-            <Url><![CDATA[<%=article.url%>]]></Url>
+            <Title><%=article.title%>></Title>
+            <Description><%=article.description%>></Description>
+            <PicUrl><%=article.picurl%>></PicUrl>
+            <Url><%=article.url%>></Url>
         </item>
         <%});%>
     </Articles>
