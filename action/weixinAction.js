@@ -42,8 +42,7 @@ exports.msgNotify = function(req,res){
             if(results.check){
                 var msgObj = results.parseXml;
                 console.log(msgObj);
-                console.log(msgObj.xml.MsgType[0],Weixin[msgObj.xml.MsgType[0]],typeof(Weixin[msgObj.xml.MsgType[0]])==='Function');
-                if(typeof(Weixin[msgObj.xml.MsgType[0]])==='Function'){
+                if(typeof(Weixin[msgObj.xml.MsgType[0]])==='function'){
                     Weixin[msgObj.xml.MsgType[0]](msgObj.xml,function(err,result){
                         cb(err,result);
                     });
