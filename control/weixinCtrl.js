@@ -662,8 +662,7 @@ Weixin.event = function(obj,fn){
     if(eventType==="subscribe"){
         var fs = require('fs');
         var ejs = require('ejs');
-        var str = fs.readFileSync('./views/articles.ejs');
-        console.log(str);
+        var str = fs.readFileSync('./views/articles.ejs').toString();
         var renderStr = ejs.render(str,{
             'from':from,
             'to':to,
