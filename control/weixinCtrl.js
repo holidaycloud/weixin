@@ -53,6 +53,7 @@ Weixin.check = function (id, timestamp, nonce,signature,fn) {
 
 //通过code换取网页授权access_token
 Weixin.codeAccessToken = function(id,code,fn){
+    console.log(id,code);
     async.auto({
         'checkConfig':function(cb){
             Weixin.checkConfig(id,function(err,result){
