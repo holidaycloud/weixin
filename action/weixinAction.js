@@ -41,8 +41,9 @@ exports.msgNotify = function(req,res){
         'sendMsg':['check','parseXml',function(cb,results){
             if(results.check){
                 var msgObj = results.parseXml;
-                console.log(msgObj);
-                cb(null,'');
+                Weixin[msgObj.xml.Event[0]](msgObj.xml,function(err,result){
+                   cb(err,result);
+                });
             } else {
                 cb(new Error('消息不一致'),null);
             }
@@ -51,6 +52,7 @@ exports.msgNotify = function(req,res){
         if(err){
             res.send('');
         } else {
+            console.log(results.sendMsg);
             res.send(results.sendMsg);
         }
     })

@@ -652,6 +652,34 @@ Weixin.createQRCode = function(id,type,expire,sceneId,stream,fn){
     });
 };
 
+//事件推送
+Weixin.event = function(obj,fn){
+    var eventType = obj.Event[0];
+    var to = obj.ToUserName[0];
+    var from = obj.FromUserName[0];
+    var createTime = obj.CreateTime[0];
+    if(eventType==="subscribe"){
+        var fs = require('fs');
+        var ejs = require('ejs');
+        var str = fs.readFileSync('./views/articles');
+        var renderStr = ejs.render(str,{
+            'from':from,
+            'to':to,
+            'articles':[
+                {
+                    'title':'test',
+                    'description':'test',
+                    'picurl':'http://holidaycloud.b0.upaiyun.com/211c76f5e52d166fb80c53a4cc2c21f4.jpg',
+                    'url':'http://www.meitrip.net/'
+                }
+            ]
+        });
+        fn(null,renderStr);
+    } else {
+        fn(null,'');
+    }
+};
+
 //上传多媒体文件
 Weixin.uploadMedia = function(id,file,type,fn){
     async.auto({
