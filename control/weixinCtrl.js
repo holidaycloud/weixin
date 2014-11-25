@@ -675,7 +675,7 @@ Weixin.event = function(id,obj,fn){
                     'title':'test',
                     'description':'test',
                     'picurl':'http://holidaycloud.b0.upaiyun.com/211c76f5e52d166fb80c53a4cc2c21f4.jpg',
-                    'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://pinyuan.holidaycloud.cn/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
+                    'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.meitrip.net/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
                 }
             ]
         });
