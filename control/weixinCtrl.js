@@ -85,6 +85,7 @@ Weixin.codeAccessToken = function(id,code,fn){
             });
         }]
     },function(err,results){
+        console.log(err,results);
         fn(err,results.getAccessToken);
     });
 };
