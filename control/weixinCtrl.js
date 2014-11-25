@@ -5,6 +5,7 @@ var async = require('async');
 var weixinConfigCtrl = require('./weixinConfigCtrl');
 var mediaCtrl = require('./mediaCtrl');
 var articleCtrl = require('./articleCtrl');
+var locationCtrl = require('./locationCtrl');
 var Weixin = function () {};
 //https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
 
@@ -657,33 +658,47 @@ Weixin.createQRCode = function(id,type,expire,sceneId,stream,fn){
 
 //事件推送
 Weixin.event = function(id,obj,fn){
-    var eventType = obj.Event[0];
-    console.log('-----接收到事件推送-----',eventType);
-    var to = obj.ToUserName[0];
-    var from = obj.FromUserName[0];
-    var createTime = obj.CreateTime[0];
-    if(eventType==="subscribe"){
-        var fs = require('fs');
-        var ejs = require('ejs');
-        var str = fs.readFileSync('./views/articles.ejs').toString();
-        var appID = global.weixin[id].appID;
-        var renderStr = ejs.render(str,{
-            'from':from,
-            'to':to,
-            'articles':[
-                {
-                    'title':'test',
-                    'description':'test',
-                    'picurl':'http://holidaycloud.b0.upaiyun.com/211c76f5e52d166fb80c53a4cc2c21f4.jpg',
-                    'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.meitrip.net/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
-                }
-            ]
-        });
-        console.log('-----返回事件推送结果-----',renderStr);
-        fn(null,renderStr);
+    var eventType = obj.Event[0].toLowerCase();
+    if(typeof(Weixin[eventType]==='function')){
+        Weixin[eventType](id,obj,fn);
     } else {
         fn(null,'');
     }
+
+};
+
+Weixin.location = function(id,obj,fn){
+    var from = obj.FromUserName[0];
+    var lat = obj.Latitude[0];
+    var lon = obj.Longitude[0];
+    var precision = obj.Precision[0];
+    locationCtrl.save(id,from,lat,lon,precision,function(err,res){
+        fn(err,'');
+    });
+};
+
+Weixin.subscribe = function(id,obj,fn){
+    var to = obj.ToUserName[0];
+    var from = obj.FromUserName[0];
+    var createTime = obj.CreateTime[0];
+    var fs = require('fs');
+    var ejs = require('ejs');
+    var str = fs.readFileSync('./views/articles.ejs').toString();
+    var appID = global.weixin[id].appID;
+    var renderStr = ejs.render(str,{
+        'from':from,
+        'to':to,
+        'articles':[
+            {
+                'title':'test',
+                'description':'test',
+                'picurl':'http://holidaycloud.b0.upaiyun.com/211c76f5e52d166fb80c53a4cc2c21f4.jpg',
+                'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.meitrip.net/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
+            }
+        ]
+    });
+    console.log('-----返回事件推送结果-----',renderStr);
+    fn(null,renderStr);
 };
 
 //上传多媒体文件
