@@ -1,17 +1,3 @@
 <xml>
     <ToUserName><%=from%></ToUserName>
-    <FromUserName><%=to%></FromUserName>
-    <CreateTime><%=Date.now()%></CreateTime>
-    <MsgType>news</MsgType>
-    <ArticleCount><%=articles.length%></ArticleCount>
-    <Articles>
-        <%articles.forEach(function(article){%>
-        <item>
-            <Title><%=article.title%></Title>
-            <Description><%=article.description%></Description>
-            <PicUrl><%=article.picurl%></PicUrl>
-            <Url><%=article.url%></Url>
-        </item>
-        <%});%>
-    </Articles>
 </xml>
