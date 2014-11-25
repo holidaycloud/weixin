@@ -4,7 +4,6 @@
 var WeixinConf = require('./../model/weixinConf');
 var async = require('async')
 var WeixinConfigCtrl = function(){};
-
 WeixinConfigCtrl.save = function(id,token,appID,appsecret,partnerId,partnerKey,paySignKey,memberToken,fn){
     var obj = {
         'ent':id,
