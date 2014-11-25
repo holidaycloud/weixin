@@ -22,21 +22,15 @@ exports.check = function(req,res){
 exports.msgNotify = function(req,res){
 //    res.set('Content-Type', 'text/xml');
     var id = req.params.id;
-    var signature = req.query.signature;
-    var timestamp = req.query.timestamp;
-    var nonce = req.query.nonce;
+    var signature = req.body.signature;
+    var timestamp = req.body.timestamp;
+    var nonce = req.body.nonce;
+    var msg = req.body.msg;
     Weixin.check(id, timestamp, nonce,signature,function(err,result){
         if(result){
-            var _data = "";
-            req.on('data',function(chunk){
-                _data+=chunk;
-            });
-            req.on('end',function(){
-                console.log(_data);
-                res.send('aaaa');
-            });
+            res.send(msg);
         } else {
-            res.send('无效信息!');
+            res.send('');
         }
     });
 };
