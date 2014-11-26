@@ -599,7 +599,7 @@ Weixin.createQRCode = function(id,type,expire,sceneId,fn){
         },
         'createQRCodeTicket':['getAccessToken',function(cb,results){
             var content = {
-                'action_info':{'scene':{'scene_id':sceneId}}
+                'action_info':{'scene':{'scene_id':parseInt(sceneId)}}
             };
             if(type==='QR_SCENE'){
                 content.action_name='QR_SCENE';
@@ -607,6 +607,7 @@ Weixin.createQRCode = function(id,type,expire,sceneId,fn){
             } else {
                 content.action_name='QR_LIMIT_SCENE';
             }
+            console.log('accessToken:',results.getAccessToken.access_token);
             var https = require('https');
             var options = {
                 hostname: 'api.weixin.qq.com',
