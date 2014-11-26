@@ -20,4 +20,4 @@ var activitySchema = new Schema({
 });
 
 var Activity = db.model('Activity', activitySchema);
-module.exports = Article;
+module.exports = Activity;
