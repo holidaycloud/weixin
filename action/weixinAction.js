@@ -89,7 +89,6 @@ exports.codeAccesstoken = function(req,res){
     });
 };
 
-
 //创建分组
 exports.createGroup = function(req,res){
     var id = req.params.id;
@@ -182,9 +181,6 @@ exports.userList = function(req,res){
     });
 };
 
-//获取用户地理位置
-//TODO:获取用户地理位置
-
 //自定义菜单创建接口
 exports.createMenu = function(req,res){
     var id = req.params.id;
@@ -236,6 +232,7 @@ exports.createQRCode = function(req,res){
     });
 };
 
+//保存微信配置
 exports.saveConfig = function(req,res){
     var id = req.params.id;
     var token = req.body.token;
@@ -255,6 +252,7 @@ exports.saveConfig = function(req,res){
     });
 };
 
+//微信配置详情
 exports.configDetail = function(req,res){
     var id = req.params.id;
     weixinConfigCtrl.detail(id,function(err,result){

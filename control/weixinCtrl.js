@@ -667,6 +667,7 @@ Weixin.event = function(id,obj,fn){
 
 };
 
+//扫描事件
 Weixin.scan = function(id,obj,fn){
     var to = obj.ToUserName[0];
     var from = obj.FromUserName[0];
@@ -680,8 +681,8 @@ Weixin.scan = function(id,obj,fn){
         'to':to,
         'articles':[
             {
-                'title':'test',
-                'description':'test',
+                'title':'关注并绑定送好礼',
+                'description':'关注微信号，并绑定用户者赠送20元电子货币',
                 'picurl':'http://holidaycloud.b0.upaiyun.com/211c76f5e52d166fb80c53a4cc2c21f4.jpg',
                 'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.meitrip.net/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
             }
@@ -690,6 +691,7 @@ Weixin.scan = function(id,obj,fn){
     fn(null,renderStr);
 };
 
+//上传位置事件
 Weixin.location = function(id,obj,fn){
     var from = obj.FromUserName[0];
     var lat = obj.Latitude[0];
@@ -700,10 +702,12 @@ Weixin.location = function(id,obj,fn){
     });
 };
 
+//取消订阅事件
 Weixin.unsubscribe = function(id,obj,fn){
     fn(null,'');
 };
 
+//订阅事件
 Weixin.subscribe = function(id,obj,fn){
     var to = obj.ToUserName[0];
     var from = obj.FromUserName[0];
@@ -717,8 +721,8 @@ Weixin.subscribe = function(id,obj,fn){
         'to':to,
         'articles':[
             {
-                'title':'test',
-                'description':'test',
+                'title':'关注并绑定送好礼',
+                'description':'关注微信号，并绑定用户者赠送20元电子货币',
                 'picurl':'http://holidaycloud.b0.upaiyun.com/211c76f5e52d166fb80c53a4cc2c21f4.jpg',
                 'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.meitrip.net/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
             }
