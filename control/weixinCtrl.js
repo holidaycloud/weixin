@@ -685,7 +685,8 @@ Weixin.scan = function(id,obj,fn){
                 'title':'关注并绑定送好礼',
                 'description':'关注微信号，并绑定用户者赠送20元电子货币',
                 'picurl':'http://holidaycloud.b0.upaiyun.com/211c76f5e52d166fb80c53a4cc2c21f4.jpg',
-                'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.meitrip.net/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
+                //'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.meitrip.net/customerWeixinBind&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
+                'url':'http://www.meitrip.net/'
             }
         ]
     });
