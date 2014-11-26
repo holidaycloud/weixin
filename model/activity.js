@@ -5,12 +5,18 @@ var Schema = require('mongoose').Schema;
 
 var activitySchema = new Schema({
     'ent':{'type':Schema.Types.ObjectId,'index':true},
-    'type':Number,
-    'title':String,
-    'desc':String,
-    'image':String,
+    'name':String,
+    'content':String,
+    'type':String,
+    'articles':[{
+        'title':String,
+        'desc':String,
+        'image':String,
+        'url':String
+    }],
     'sceneId':String,
-    'value':Number
+    'value':Number,
+    'createDate':{'type':Number,'default':Date.now}
 });
 
 var Activity = db.model('Activity', activitySchema);

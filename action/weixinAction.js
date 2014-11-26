@@ -4,6 +4,7 @@
 var Weixin = require('./../control/weixinCtrl');
 var MediaCtrl = require('./../control/mediaCtrl');
 var weixinConfigCtrl = require('./../control/weixinConfigCtrl');
+var activityCtrl = require('./../control/activityCtrl');
 var Config = require('./../config/config.json');
 var async = require('async');
 //验证消息真实性
@@ -357,6 +358,32 @@ exports.sendOrderTemplate = function(req,res){
         'remark':{'value':remark,'color':'#0A0A0A'}
     };
     Weixin.sendTemplate(id,tempId,data,toUser,function(err,result){
+        if(err){
+            res.json({'error':1, 'errMsg':err.message});
+        } else {
+            res.json({'error':0, 'data':result});
+        }
+    });
+};
+
+exports.createActivity = function(req,res){
+    var id = req.params.id;
+    var name = req.body.name;
+    var content = req.body.content;
+    var type = req.body.type;
+    var sceneId = req.body.sceneId;
+    var value = req.body.value;
+    var articles = [];
+    var appID = global.weixin[id].appID;
+    for(var i=0;i<req.body.title.length;i++){
+        var obj = {
+            'title':req.body.title[i],
+            'desc':req.body.desc[i],
+            'image':req.body.image[i],
+            'url':'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri='+req.body.url[i]+'&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect'
+        };
+    }
+    activityCtrl.save(id,name,content,type,articles,sceneId,value,function(err,res){
         if(err){
             res.json({'error':1, 'errMsg':err.message});
         } else {
