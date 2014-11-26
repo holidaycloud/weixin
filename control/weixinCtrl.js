@@ -644,6 +644,7 @@ Weixin.createQRCode = function(id,type,expire,sceneId,fn){
                     'ticket':ticket.ticket,
                     'expireSeconds':ticket.expire_seconds,
                     'url':ticket.url,
+                    'sceneId':sceneId,
                     'imageUrl':'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ticket.ticket
                 });
                 qrticket.save(function(err,res){
