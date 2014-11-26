@@ -621,10 +621,12 @@ Weixin.createQRCode = function(id,type,expire,sceneId,fn){
                     _data+=chunk;
                 });
                 res.on('end',function(){
+                    console.log(_data);
                     var result = JSON.parse(_data);
                     cb(null,result);
                 });
             });
+            console.log(content);
             req.write(JSON.stringify(content));
             req.end();
             req.on('error', function(e) {
