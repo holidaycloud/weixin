@@ -344,14 +344,14 @@ exports.sendOrderTemplate = function(req,res){
     var toUser = req.body.toUser;
     var customerInfo = req.body.customerInfo;
     var orderID = req.body.orderID;
+    var status = req.body.status;
     var remark = req.body.remark;
     var orderDate = req.body.orderDate;
 
-    //var data = JSON.parse(req.body.data);
     var data = {
         'first':{ 'value':'您有新的订单。','color':'#0A0A0A'},
         'tradeDateTime':{'value':orderDate,'color':'#0A0A0A'},
-        'orderType':{'value':'新订单','color':'#0A0A0A'},
+        'orderType':{'value':status,'color':'#0A0A0A'},
         'customerInfo':{'value':customerInfo,'color':'#0A0A0A'},
         'orderItemName':{'value':'订单号','color':'#0A0A0A'},
         'orderItemData':{'value':orderID,'color':'#0A0A0A'},
