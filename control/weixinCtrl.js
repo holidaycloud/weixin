@@ -954,7 +954,7 @@ Weixin.sendTemplate = function(id,tempId,data,toUser,fn){
             var sendData = {
                 "touser":toUser,
                 "template_id":tempId,
-                "url":"http://weixin.qq.com/download",
+                "url":"http://www.holidaycloud.cn",
                 "topcolor":"#FF0000",
                 "data":data
             }
