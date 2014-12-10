@@ -443,31 +443,23 @@ Weixin.createMenu = function(id,fn){
             }
         },
         'getMenu':function(cb){
+            var appID = global.weixin[id].appID;
             cb(null, {
                 "button":[
                     {
                         "type":"click",
-                        "name":"今日歌曲",
-                        "key":"V1001_TODAY_MUSIC"
+                        "name":"最新消息",
+                        "key":"NEWS"
                     },
                     {
                         "name":"菜单",
                         "sub_button":[
                             {
                                 "type":"view",
-                                "name":"搜索",
-                                "url":"http://www.soso.com/"
-                            },
-                            {
-                                "type":"view",
-                                "name":"视频",
-                                "url":"http://v.qq.com/"
-                            },
-                            {
-                                "type":"click",
-                                "name":"赞一下我们",
-                                "key":"V1001_GOOD"
-                            }]
+                                "name":"绑定",
+                                "url":'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.holidaycloud.cn/goWeixinBind&response_type=code&scope=snsapi_base&state=bind#wechat_redirect'
+                            }
+                        ]
                     }]
             });
         },
