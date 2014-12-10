@@ -4,6 +4,11 @@
         "port":27017,
         "database":"weixin"
     },
+    "inf":{
+        "host":"http://192.168.22.4",
+        "port":3000,
+        "token":"f2d107b23392ac0f3c0b9de7f7cbb380f9f68e4e"
+    },
     "template":{
         "order":"OTQM8Ud7KVbhSrZtSSf3aTotnw5lGzgErTbFSMv0XqY"
     }

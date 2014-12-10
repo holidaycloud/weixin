@@ -242,8 +242,7 @@ exports.saveConfig = function(req,res){
     var partnerId = req.body.partnerId;
     var partnerKey = req.body.partnerKey;
     var paySignKey = req.body.paySignKey;
-    var memberToken = req.body.memberToken;
-    weixinConfigCtrl.save(id,token,appID,appsecret,partnerId,partnerKey,paySignKey,memberToken,function(err,result){
+    weixinConfigCtrl.save(id,token,appID,appsecret,partnerId,partnerKey,paySignKey,function(err,result){
         if(err){
             res.json({'error':1, 'errMsg':err.message});
         } else {
