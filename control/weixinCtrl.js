@@ -456,8 +456,8 @@ Weixin.createMenu = function(id,fn){
                         "sub_button":[
                             {
                                 "type":"view",
-                                "name":"绑定",
-                                "url":'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+appID+'&redirect_uri=http://www.holidaycloud.cn/goWeixinBind&response_type=code&scope=snsapi_base&state=bind#wechat_redirect'
+                                "name":"列表",
+                                "url":'http://test.meitrip.net'
                             }
                         ]
                     }]
