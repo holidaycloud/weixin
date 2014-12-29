@@ -723,7 +723,41 @@ Weixin.subscribe = function(id,obj,fn){
     //    ]
     //});
     //fn(null,renderStr);
-    fn(null,null);
+    var from = obj.FromUserName[0];
+    async.auto({
+        userInfo:function(cb){
+            Weixin.userInfo(id,from,function(err,res){
+                cb(err,res);
+            });
+        },
+        saveuserinfo:['userInfo',function(cb,results){
+            var url = config.inf.host+':'+config.inf.port+'/api/customer/saveWeixinCustomer';
+            request({
+                url:url,
+                method:'POST',
+                form: {
+                    ent:id,
+                    subscribe:results.userInfo.subscribe,
+                    openid:results.userInfo.openid,
+                    nickname:results.userInfo.nickname,
+                    sex:results.userInfo.sex,
+                    city: results.userInfo.city,
+                    country:results.userInfo.country,
+                    province:results.userInfo.province,
+                    language:results.userInfo.language,
+                    headimgurl:results.userInfo.headimgurl,
+                    subscribe_time:results.userInfo.subscribe_time,
+                    unionid:results.userInfo.unionid
+                },
+                timeout:3000
+            },function(err,response,body){
+                cb(err,body?JSON.parse(body):{});
+            });
+        }]
+    },function(err,results){
+        console.log(err,results);
+        fn(null,null);
+    });
 };
 
 //上传多媒体文件
