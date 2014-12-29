@@ -757,7 +757,6 @@ Weixin.subscribe = function(id,obj,fn){
             });
         }]
     },function(err,results){
-        console.log(err,results);
         fn(null,null);
     });
 };
