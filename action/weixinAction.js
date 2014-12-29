@@ -55,10 +55,10 @@ exports.msgNotify = function(req,res){
             }
         }]
     },function(err,results){
+        console.log(err,results);
         if(err){
             res.send('');
         } else {
-            console.log(results.sendMsg);
             res.send(results.sendMsg);
         }
     })
