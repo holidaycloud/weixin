@@ -732,7 +732,7 @@ Weixin.subscribe = function(id,obj,fn){
             });
         },
         saveuserinfo:['userInfo',function(cb,results){
-            var url = config.inf.host+':'+config.inf.port+'/api/customer/saveWeixinCustomer';
+            var url = Config.inf.host+':'+Config.inf.port+'/api/customer/saveWeixinCustomer';
             request({
                 url:url,
                 method:'POST',
