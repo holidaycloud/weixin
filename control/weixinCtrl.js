@@ -7,6 +7,7 @@ var mediaCtrl = require('./mediaCtrl');
 var articleCtrl = require('./articleCtrl');
 var locationCtrl = require('./locationCtrl');
 var QRTicket = require('./../model/qrticket');
+var Config = require('./../config/config.json');
 var Weixin = function () {};
 //https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
 

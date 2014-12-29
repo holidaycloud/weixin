@@ -236,7 +236,7 @@ exports.createQRCode = function(req,res){
 //保存微信配置
 exports.saveConfig = function(req,res){
     var id = req.params.id;
-    var token = req.body.token;
+    var token = req.body.weixintoken;
     var appID = req.body.appID;
     var appsecret = req.body.appsecret;
     var partnerId = req.body.partnerId;
