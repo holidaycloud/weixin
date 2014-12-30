@@ -983,7 +983,7 @@ Weixin.sendTemplate = function(id,tempId,data,toUser,fn){
             var sendData = {
                 "touser":toUser,
                 "template_id":tempId,
-                "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid="+global.weixin[id].appID+"&redirect_uri=http://test.meitrip.net/wap/order/detail/"+data.orderItemData.value+"&response_type=code&scope=snsapi_base&state=baolong#wechat_redirect",
+                "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid="+global.weixin[id].appID+"&redirect_uri=http://www.holidaycloud.cn/wap/order/detail/"+data.orderItemData.value+"&response_type=code&scope=snsapi_base&state=orderDetail#wechat_redirect",
                 "topcolor":"#FF0000",
                 "data":data
             }
