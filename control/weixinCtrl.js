@@ -18,10 +18,11 @@ Weixin.checkConfig = function (id,fn) {
         weixinConfigCtrl.detail(id,function(err,result){
             if(!err&&result){
                 global.weixin[id] = result;
+                fn(null,null);
             } else {
-                console.log('未找到配置文件');
+                fn(new Error('未找到配置文件'),null);
             }
-            fn(err,null);
+
         });
     }
 };
@@ -129,6 +130,7 @@ Weixin.accessToken = function(id,fn){
             });
         }]
     },function(err,results){
+        console.log(err,results);
         fn(err,results.getAccessToken);
     });
 };
