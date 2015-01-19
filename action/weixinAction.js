@@ -390,3 +390,15 @@ exports.createActivity = function(req,res){
         }
     });
 };
+
+exports.jsapisign = function(req,res){
+    var id = req.params.id;
+    var url = req.body.url;
+    Weixin.jsapiSign(id,url,function(err,result){
+        if(err){
+            res.json({'error':1, 'errMsg':err.message});
+        } else {
+            res.json({'error':0, 'data':result});
+        }
+    });
+};

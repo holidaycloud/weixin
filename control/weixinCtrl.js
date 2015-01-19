@@ -133,6 +133,128 @@ Weixin.accessToken = function(id,fn){
     });
 };
 
+//获取jsapi_ticket
+Weixin.jsTicket = function(id,fn){
+    async.auto({
+        'getAccessToken':function(cb){
+            if(global.weixin[id]&&global.weixin[id].accessToken&&global.weixin[id].accessToken.startTime+(global.weixin[id].accessToken.expires_in*1000)>Date.now()){
+                cb(null,global.weixin[id].accessToken);
+            } else {
+                Weixin.accessToken(id,function(err,res){
+                    cb(err,res);
+                });
+            }
+        },
+        'getTicket':['getAccessToken',function(cb,results){
+            var https = require('https');
+            var options = {
+                hostname: 'api.weixin.qq.com',
+                port: 443,
+                path: '/cgi-bin/ticket/getticket?access_token='+results.getAccessToken.access_token+'&type=jsapi',
+                method: 'GET'
+            };
+
+            var req = https.request(options, function(res) {
+                res.setEncoding('utf8');
+                var _data="";
+                res.on('data', function(chunk) {
+                    _data+=chunk;
+                });
+                res.on('end',function(){
+                    var result = JSON.parse(_data);
+                    result.startTime = Date.now();
+                    global.weixin[id].jsticket = result;
+                    fn(null,result);
+                });
+            });
+            req.end();
+            req.on('error', function(e) {
+                fn(e,null);
+            });
+        }]
+    },function(err,results){
+        fn(err,results.getTicket);
+    });
+};
+
+Weixin.jsapiSign = function(id,url,fn){
+    async.auto({
+        'getTicket':function(cb){
+            if(global.weixin[id]&&global.weixin[id].jsticket&&global.weixin[id].jsticket.startTime+(global.weixin[id].jsticket.expires_in*1000)>Date.now()){
+                cb(null,global.weixin[id].jsticket);
+            } else {
+                Weixin.jsTicket(id,function(err,res){
+                    cb(err,res);
+                });
+            }
+        },
+        'createSign':['getTicket',function(cb,results){
+            var createRamdomNonceStr = function(){
+                var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                var maxPos = $chars.length;
+                var noceStr = "";
+                for (i = 0; i < 32; i++) {
+                    noceStr += $chars.charAt(Math.floor(Math.random() * maxPos));
+                }
+                return noceStr;
+            };
+            var ticket = results.getTicket;
+            var noncestr = createRamdomNonceStr();
+            var timestamp = Math.floor(Date.now()/1000);
+            var signStr = "jsapi_ticket="+ticket.ticket+"&noncestr="+noncestr+"&timestamp="+timestamp+"&url="+url;
+            var crypto = require('crypto');
+            var shasum = crypto.createHash('sha1');
+            shasum.update(signStr);
+            var signature = shasum.digest('hex');
+            cb(null,{
+                appId: global.weixin[id].appID,
+                timestamp:timestamp ,
+                nonceStr: noncestr,
+                signature: signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'hideMenuItems',
+                    'showMenuItems',
+                    'hideAllNonBaseMenuItem',
+                    'showAllNonBaseMenuItem',
+                    'translateVoice',
+                    'startRecord',
+                    'stopRecord',
+                    'onRecordEnd',
+                    'playVoice',
+                    'pauseVoice',
+                    'stopVoice',
+                    'uploadVoice',
+                    'downloadVoice',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',
+                    'openLocation',
+                    'getLocation',
+                    'hideOptionMenu',
+                    'showOptionMenu',
+                    'closeWindow',
+                    'scanQRCode',
+                    'chooseWXPay',
+                    'openProductSpecificView',
+                    'addCard',
+                    'chooseCard',
+                    'openCard'
+                ]
+            });
+        }]
+    },function(err,results){
+        fn(err,results.createSign);
+    });
+
+};
+
 //创建分组
 Weixin.createGroup = function(id,name,fn){
     async.auto({

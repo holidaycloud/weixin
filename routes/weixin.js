@@ -30,6 +30,6 @@ router.post('/uploadArticles/:id',weixinAction.uploadArticles);
 router.post('/groupSendArticle/:id',weixinAction.groupSendArticle);
 router.post('/sendOrderTemplate/:id',weixinAction.sendOrderTemplate);
 router.post('/createActivity/:id',weixinAction.createActivity);
-
+router.post("/jsapisign/:id",weixinAction.jsapisign);
 
 module.exports = router;
