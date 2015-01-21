@@ -18,7 +18,6 @@ router.get('/groupList/:id',weixinAction.groupList);
 router.get('/getCusGroup/:id',weixinAction.getCusGroup);
 router.post('/moveGroup/:id',weixinAction.moveGroup);
 router.get('/userInfo/:id',weixinAction.userInfo);
-router.get('/userInfoAccessToken/:id',weixinAction.userInfo);
 router.get('/userList/:id',weixinAction.userList);
 router.post('/createMenu/:id',weixinAction.createMenu);
 router.get('/getMenu/:id',weixinAction.getMenu);
