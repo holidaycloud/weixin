@@ -18,6 +18,7 @@ router.get('/groupList/:id',weixinAction.groupList);
 router.get('/getCusGroup/:id',weixinAction.getCusGroup);
 router.post('/moveGroup/:id',weixinAction.moveGroup);
 router.get('/userInfo/:id',weixinAction.userInfo);
+router.get('/userInfoAccessToken/:id',weixinAction.userInfo);
 router.get('/userList/:id',weixinAction.userList);
 router.post('/createMenu/:id',weixinAction.createMenu);
 router.get('/getMenu/:id',weixinAction.getMenu);
@@ -31,5 +32,7 @@ router.post('/groupSendArticle/:id',weixinAction.groupSendArticle);
 router.post('/sendOrderTemplate/:id',weixinAction.sendOrderTemplate);
 router.post('/createActivity/:id',weixinAction.createActivity);
 router.post("/jsapisign/:id",weixinAction.jsapisign);
+router.get("/userInfoAccessToken/:id",weixinAction.userInfoAccessToken);
+router.get("/refreshToken/:id",weixinAction.refressToken);
 
 module.exports = router;

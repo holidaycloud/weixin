@@ -402,3 +402,30 @@ exports.jsapisign = function(req,res){
         }
     });
 };
+
+exports.userInfoAccessToken = function(req,res){
+    var id = req.params.id;
+    var openid = req.query.openid;
+    var accessToken = req.query.accesstoken;
+    Weixin.userInfoByAccessToken(id,openid,accessToken,function(err,result){
+        console.log(err,result);
+        if(err){
+            res.json({'error':1, 'errMsg':err.message});
+        } else {
+            res.json({'error':0, 'data':result});
+        }
+    });
+};
+
+exports.refressToken = function(req,res){
+    var id = req.params.id;
+    var refreshToken = req.query.refreshToken;
+    Weixin.refreshToken(id,refreshToken,function(err,result){
+        console.log(err,result);
+        if(err){
+            res.json({'error':1, 'errMsg':err.message});
+        } else {
+            res.json({'error':0, 'data':result});
+        }
+    });
+};

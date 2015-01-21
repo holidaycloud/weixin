@@ -511,6 +511,59 @@ Weixin.userInfo = function(id,openID,fn){
     });
 };
 
+//网页授权获取用户基本信息
+Weixin.userInfoByAccessToken = function(id,openID,at,fn){
+    var https = require('https');
+    var options = {
+        hostname: 'api.weixin.qq.com',
+        port: 443,
+        path: '/sns/userinfo?access_token='+at+'&openid='+openID+'&lang=zh_CN',
+        method: 'GET'
+    };
+    var req = https.request(options, function(res) {
+        res.setEncoding('utf8');
+        var _data="";
+        res.on('data', function(chunk) {
+            _data+=chunk;
+        });
+        res.on('end',function(){
+            var result = JSON.parse(_data);
+            fn(null,result);
+        });
+    });
+    req.end();
+    req.on('error', function(e) {
+        fn(e,null);
+    });
+};
+
+//刷新网页授权access_token（如果需要）
+Weixin.refreshToken = function(id,refreshToken,fn){
+    var appID = global.weixin[id].appID;
+    var https = require('https');
+    var options = {
+        hostname: 'api.weixin.qq.com',
+        port: 443,
+        path: '/sns/oauth2/refresh_token?appid='+appID+'&refresh_token='+refreshToken+'&grant_type=refresh_token',
+        method: 'GET'
+    };
+    var req = https.request(options, function(res) {
+        res.setEncoding('utf8');
+        var _data="";
+        res.on('data', function(chunk) {
+            _data+=chunk;
+        });
+        res.on('end',function(){
+            var result = JSON.parse(_data);
+            fn(null,result);
+        });
+    });
+    req.end();
+    req.on('error', function(e) {
+        fn(e,null);
+    });
+};
+
 //获取关注者列表
 Weixin.userList = function(id,openID,fn){
     async.auto({
