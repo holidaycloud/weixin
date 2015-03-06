@@ -48,7 +48,7 @@ exports.msgNotify = function(req,res){
                         cb(err,result);
                     });
                 } else {
-                    cb(null,'');
+                    cb(null,msgObj);
                 }
             } else {
                 cb(new Error('消息不一致'),null);
