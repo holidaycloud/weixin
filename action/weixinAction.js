@@ -43,13 +43,14 @@ exports.msgNotify = function(req,res){
             if(results.check){
                 var msgObj = results.parseXml;
                 console.log(msgObj);
-                if(typeof(Weixin[msgObj.xml.MsgType[0]])==='function'){
-                    Weixin[msgObj.xml.MsgType[0]](id,msgObj.xml,function(err,result){
-                        cb(err,result);
-                    });
-                } else {
-                    cb(null,msgObj);
-                }
+                cb(null,msgObj);
+                //if(typeof(Weixin[msgObj.xml.MsgType[0]])==='function'){
+                //    Weixin[msgObj.xml.MsgType[0]](id,msgObj.xml,function(err,result){
+                //        cb(err,result);
+                //    });
+                //} else {
+                //    cb(null,msgObj);
+                //}
             } else {
                 cb(new Error('消息不一致'),null);
             }
