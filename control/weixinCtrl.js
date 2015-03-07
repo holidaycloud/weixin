@@ -624,22 +624,18 @@ Weixin.createMenu = function(id,fn){
         'getMenu':function(cb){
             var appID = global.weixin[id].appID;
             cb(null, {
-                "button":[
+                "button": [
                     {
-                        "type":"click",
-                        "name":"最新消息",
-                        "key":"NEWS"
+                        "type": "scancode_push",
+                        "name": "扫一扫",
+                        "key": "rselfmenu_0_1"
                     },
                     {
-                        "name":"菜单",
-                        "sub_button":[
-                            {
-                                "type":"view",
-                                "name":"列表",
-                                "url":'http://test.meitrip.net'
-                            }
-                        ]
-                    }]
+                        "type": "view",
+                        "name": "我的优惠券",
+                        "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx56f37f15c380728b&redirect_uri=http%3A%2F%2Ftest.meitrip.net%2fcoupons&response_type=code&scope=snsapi_base&state=coupons#wechat_redirect"
+                    }
+                ]
             });
         },
         'createMenu':['getAccessToken','getMenu',function(cb,results){
