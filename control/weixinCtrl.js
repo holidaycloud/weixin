@@ -632,12 +632,12 @@ Weixin.createMenu = function(id,fn){
                     },
                     {
                         "type": "view",
-                        "name": "账号绑定",
+                        "name": "我的优惠券",
                         "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx56f37f15c380728b&redirect_uri=http%3A%2F%2Ftest.meitrip.net%2fcoupons&response_type=code&scope=snsapi_base&state=coupons#wechat_redirect"
                     },
                     {
                         "type": "view",
-                        "name": "我的优惠券",
+                        "name": "账号绑定",
                         "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx56f37f15c380728b&redirect_uri=http%3A%2F%2Ftest.meitrip.net%2fbind&response_type=code&scope=snsapi_base&state=coupons#wechat_redirect"
                     }
                 ]
