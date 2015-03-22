@@ -626,9 +626,9 @@ Weixin.createMenu = function(id,fn){
             cb(null, {
                 "button": [
                     {
-                        "type": "scancode_push",
+                        "type": "scancode_waitmsg",
                         "name": "扫一扫",
-                        "key": "rselfmenu_0_1"
+                        "key": "scanwait"
                     },
                     {
                         "type": "view",
