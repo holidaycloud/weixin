@@ -383,9 +383,9 @@ exports.sendCouponTemplate = function(req,res){
     var data = {
         'url':"http://test.meitrip.net/couponDetail?id="+couponId,
         'data':{
-            'first':{ 'value':'您已成功使用优惠券。','color':'#0A0A0A'},
-            'keyword1':{'value':name,'color':'#0A0A0A'},
-            'keyword2':{'value':entName,'color':'#0A0A0A'},
+            'first':{ 'value':'您已成功使用优惠券。','color':'#F5A950'},
+            'keyword1':{'value':name,'color':'#F5A950'},
+            'keyword2':{'value':entName,'color':'#F5A950'},
             'keyword3':{'value':useDate,'color':'#0A0A0A'},
             'remark':{'value':remark,'color':'#0A0A0A'}
         }
