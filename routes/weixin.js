@@ -29,9 +29,11 @@ router.get('/getMedia/:id',weixinAction.getMedia);
 router.post('/uploadArticles/:id',weixinAction.uploadArticles);
 router.post('/groupSendArticle/:id',weixinAction.groupSendArticle);
 router.post('/sendOrderTemplate/:id',weixinAction.sendOrderTemplate);
+router.post('/sendCouponTemplate/:id',weixinAction.sendCouponTemplate);
 router.post('/createActivity/:id',weixinAction.createActivity);
 router.post("/jsapisign/:id",weixinAction.jsapisign);
 router.get("/userInfoAccessToken/:id",weixinAction.userInfoAccessToken);
 router.get("/refreshToken/:id",weixinAction.refressToken);
+
 
 module.exports = router;

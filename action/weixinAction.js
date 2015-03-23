@@ -337,7 +337,7 @@ exports.groupSendArticle = function(req,res){
     });
 };
 
-//发送模板消息
+//发送订单模板消息
 exports.sendOrderTemplate = function(req,res){
     var id = req.params.id;
     var tempId = Config.template.order;
@@ -349,13 +349,46 @@ exports.sendOrderTemplate = function(req,res){
     var orderDate = req.body.orderDate;
 
     var data = {
-        'first':{ 'value':'您有新的订单。','color':'#0A0A0A'},
-        'tradeDateTime':{'value':orderDate,'color':'#0A0A0A'},
-        'orderType':{'value':status,'color':'#0A0A0A'},
-        'customerInfo':{'value':customerInfo,'color':'#0A0A0A'},
-        'orderItemName':{'value':'订单号','color':'#0A0A0A'},
-        'orderItemData':{'value':orderID,'color':'#0A0A0A'},
-        'remark':{'value':remark,'color':'#0A0A0A'}
+        'url':"https://open.weixin.qq.com/connect/oauth2/authorize?appid="+global.weixin[id].appID+"&redirect_uri=http://www.holidaycloud.cn/wap/order/detail/"+orderID+"&response_type=code&scope=snsapi_base&state=orderDetail#wechat_redirect",
+        'data':{
+            'first':{ 'value':'您有新的订单。','color':'#0A0A0A'},
+            'tradeDateTime':{'value':orderDate,'color':'#0A0A0A'},
+            'orderType':{'value':status,'color':'#0A0A0A'},
+            'customerInfo':{'value':customerInfo,'color':'#0A0A0A'},
+            'orderItemName':{'value':'订单号','color':'#0A0A0A'},
+            'orderItemData':{'value':orderID,'color':'#0A0A0A'},
+            'remark':{'value':remark,'color':'#0A0A0A'}
+        }
+    };
+    Weixin.sendTemplate(id,tempId,data,toUser,function(err,result){
+        if(err){
+            res.json({'error':1, 'errMsg':err.message});
+        } else {
+            res.json({'error':0, 'data':result});
+        }
+    });
+};
+
+//发送优惠券模板消息
+exports.sendCouponTemplate = function(req,res){
+    var id = req.params.id;
+    var tempId = Config.template.order;
+    var toUser = req.body.toUser;
+    var couponId = req.body.couponId;
+    var name = req.body.name;
+    var entName = req.body.entName;
+    var useDate = req.body.useDate;
+    var remark = req.body.remark;
+
+    var data = {
+        'url':"http://test.meitrip.net/couponDetail?id="+couponId,
+        'data':{
+            'first':{ 'value':'您已成功使用优惠券。','color':'#0A0A0A'},
+            'keyword1':{'value':name,'color':'#0A0A0A'},
+            'keyword2':{'value':entName,'color':'#0A0A0A'},
+            'keyword3':{'value':useDate,'color':'#0A0A0A'},
+            'remark':{'value':remark,'color':'#0A0A0A'}
+        }
     };
     Weixin.sendTemplate(id,tempId,data,toUser,function(err,result){
         if(err){
