@@ -372,7 +372,7 @@ exports.sendOrderTemplate = function(req,res){
 //发送优惠券模板消息
 exports.sendCouponTemplate = function(req,res){
     var id = req.params.id;
-    var tempId = Config.template.order;
+    var tempId = req.body.tempId;
     var toUser = req.body.toUser;
     var couponId = req.body.couponId;
     var name = req.body.name;
