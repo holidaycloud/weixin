@@ -225,7 +225,8 @@ exports.createQRCode = function(req,res){
     var type = req.body.type;
     var expire = req.body.expire;
     var sceneId = req.body.sceneId;
-    Weixin.createQRCode(id,type,expire,sceneId,function(err,result){
+    var sceneStr = req.body.sceneStr;
+    Weixin.createQRCode(id,type,expire,sceneId,sceneStr,function(err,result){
         if(err){
             res.json({'error':1, 'errMsg':err.message});
         } else {
