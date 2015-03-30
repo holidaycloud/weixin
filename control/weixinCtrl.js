@@ -758,7 +758,7 @@ Weixin.deleteMenu = function(id,fn){
 };
 
 //生成带参数的二维码
-Weixin.createQRCode = function(id,type,expire,sceneId,fn){
+Weixin.createQRCode = function(id,type,expire,sceneId,sceneStr,fn){
     async.auto({
         'getAccessToken':function(cb){
             if(global.weixin[id]&&global.weixin[id].accessToken&&global.weixin[id].accessToken.startTime+(global.weixin[id].accessToken.expires_in*1000)>Date.now()){
@@ -770,9 +770,16 @@ Weixin.createQRCode = function(id,type,expire,sceneId,fn){
             }
         },
         'createQRCodeTicket':['getAccessToken',function(cb,results){
-            var content = {
-                'action_info':{'scene':{'scene_id':parseInt(sceneId)}}
-            };
+            var content = {};
+            if(sceneId){
+                content.scene={
+                    'scene_id':parseInt(sceneId)
+                }
+            } else if(sceneStr){
+                content.scene={
+                    'scene_str':sceneStr
+                }
+            }
             if(type==='QR_SCENE'){
                 content.action_name='QR_SCENE';
                 content.expire_seconds = expire;
@@ -811,14 +818,19 @@ Weixin.createQRCode = function(id,type,expire,sceneId,fn){
             if(ticket.errcode){
                 cb(new Error(ticket.errmsg),null);
             } else {
-                var qrticket = new QRTicket({
+                var obj = {
                     'ent':id,
                     'ticket':ticket.ticket,
                     'expireSeconds':ticket.expire_seconds,
                     'url':ticket.url,
-                    'sceneId':sceneId,
                     'imageUrl':'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ticket.ticket
-                });
+                }
+                if(sceneId){
+                    obj.sceneId = sceneId;
+                } else if(sceneStr){
+                    obj.sceneStr = sceneStr;
+                }
+                var qrticket = new QRTicket(obj);
                 qrticket.save(function(err,res){
                     cb(err,res);
                 });

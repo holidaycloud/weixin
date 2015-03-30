@@ -7,6 +7,7 @@ var qrTicketSchema = new Schema({
     'ent':{'type':Schema.Types.ObjectId,'index':true},
     'ticket':String,
     'sceneId':Number,
+    'sceneStr':String,
     'expireSeconds':Number,
     'url':String,
     'imageUrl':String,
