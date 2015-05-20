@@ -772,11 +772,11 @@ Weixin.createQRCode = function(id,type,expire,sceneId,sceneStr,fn){
         'createQRCodeTicket':['getAccessToken',function(cb,results){
             var content = {};
             if(sceneId){
-                content.scene={
+                content.action_info.scene={
                     'scene_id':parseInt(sceneId)
                 }
             } else if(sceneStr){
-                content.scene={
+                content.action_info.scene={
                     'scene_str':sceneStr
                 }
             }
