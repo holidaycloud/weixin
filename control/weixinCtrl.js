@@ -771,6 +771,7 @@ Weixin.createQRCode = function(id,type,expire,sceneId,sceneStr,fn){
         },
         'createQRCodeTicket':['getAccessToken',function(cb,results){
             var content = {};
+            content.action_info = {}
             if(sceneId){
                 content.action_info.scene={
                     'scene_id':parseInt(sceneId)
