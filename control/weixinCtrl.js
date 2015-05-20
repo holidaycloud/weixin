@@ -784,7 +784,7 @@ Weixin.createQRCode = function(id,type,expire,sceneId,sceneStr,fn){
                 content.action_name='QR_SCENE';
                 content.expire_seconds = expire;
             } else {
-                content.action_name='QR_LIMIT_SCENE';
+                content.action_name=type;
             }
             console.log('accessToken:',results.getAccessToken.access_token);
             var https = require('https');

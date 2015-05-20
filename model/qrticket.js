@@ -13,6 +13,6 @@ var qrTicketSchema = new Schema({
     'imageUrl':String,
     'createTime':{'type':Number,'default':Date.now}
 });
-qrTicketSchema.index({'ent':1,'sceneId':1},{unique:true});
+qrTicketSchema.index({'ent':1,'sceneStr':1},{unique:true});
 var QRTicket = db.model('QRTicket', qrTicketSchema);
 module.exports = QRTicket;
