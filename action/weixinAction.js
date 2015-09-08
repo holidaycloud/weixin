@@ -382,7 +382,7 @@ exports.sendCouponTemplate = function(req,res){
     var remark = req.body.remark;
 
     var data = {
-        'url':"http://test.meitrip.net/couponDetail?id="+couponId,
+        //'url':"http://test.meitrip.net/couponDetail?id="+couponId,
         'data':{
             'first':{ 'value':'您已成功使用优惠券。','color':'#F5A950'},
             'keyword1':{'value':name,'color':'#F5A950'},

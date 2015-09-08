@@ -1174,7 +1174,7 @@ Weixin.sendTemplate = function(id,tempId,data,toUser,fn){
             var sendData = {
                 "touser":toUser,
                 "template_id":tempId,
-                "url":data.url,
+                //"url":data.url,
                 "topcolor":"#FF0000",
                 "data":data.data
             }
